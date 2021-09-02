@@ -1,0 +1,30 @@
+easyblock = 'RPackage'
+
+name = 'jacop'
+version = '1.18'
+versionsuffix = '-R-%(rver)s'
+
+# License:: GPLv2+
+homepage = 'https://myhits.sib.swiss/cgi-bin/jacop'
+description = "Just another classification of proteins (JACOP) R library"
+
+toolchain = {'name': 'foss', 'version': '2021a'}
+
+source_urls = [
+    'https://myhits.sib.swiss/util/jacop/',
+]
+sources = ['jacop_%(version)s.tar.gz']
+checksums = ['a61721bfee7ab76082bc6d0941a0898f7a13409f9ee22ab87c489429f13a92bd']
+
+dependencies = [
+    ('R', '4.1.0'),
+]
+
+exts_defaultclass = 'RPackage'
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': [name],
+}
+
+moduleclass = 'tools'
