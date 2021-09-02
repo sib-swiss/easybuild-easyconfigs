@@ -1,0 +1,44 @@
+##
+# This is a contribution from SIB Swiss Institute of Bioinformatics
+# Homepage:     https://www.sib.swiss/research-infrastructure/competence-centers/vital-it
+#
+# Authors::     Sebastien Moretti <sebastien.moretti@sib.swiss>
+#
+##
+
+easyblock = 'PerlModule'
+
+name = 'BTLib'
+version = '0.20'
+versionsuffix = '-Perl-%(perlver)s'
+
+homepage = 'https://sourceforge.net/projects/estscan/'
+description = """Biology Toolkit Library Perl module:
+This Perl module provides objects useful for parsing and extracting
+information from DNA, protein, and other type of textual data found in biology
+sequence analysis and bioinformatics, e.g., EMBL/GenBank and UniProt/SwissProt.
+
+It also provides scripts to index and retrieve records from databases in flat
+files."""
+
+toolchain = {'name': 'GCCcore', 'version': '10.3.0'}
+
+builddependencies = [('binutils', '2.36.1')]
+
+dependencies = [
+    ('Perl', '5.32.1'),
+]
+
+source_urls = ['https://downloads.sourceforge.net/project/estscan/BTLib/%(version)s']
+sources = ['%(name)s-%(version)s.tar.gz']
+checksums = ['5fdd3230b05cbf8535888401c8b908a48583b134c163ccfcb24328470f13d856']
+
+
+sanity_check_paths = {
+    'files': ['bin/fetch', 'bin/indexer'],
+    'dirs': ['bin', 'lib/perl5/site_perl/%(perlver)s', 'man'],
+}
+
+sanity_check_commands = ["fetch -h || true"]
+
+moduleclass = 'bio'
