@@ -1,0 +1,223 @@
+##
+# This is a contribution from SIB Swiss Institute of Bioinformatics
+# Homepage:     https://www.sib.swiss/research-infrastructure/competence-centers/vital-it
+#
+# Authors::     Sebastien Moretti <sebastien.moretti@sib.swiss>
+#
+##
+
+easyblock = 'Bundle'
+
+name = 'MetaNetX_Perl'
+version = '20210806'
+versionsuffix = '-Perl-%(perlver)s'
+
+homepage = 'https://www.metanetx.org/'
+description = """Perl requirements for Vital-IT, mainly for the MetaNetX and MyHits projects."""
+
+toolchain = {'name': 'GCCcore', 'version': '10.3.0'}
+
+builddependencies = [('binutils', '2.36.1')]
+
+dependencies = [
+    ('Perl',        '5.32.1'),
+    ('Archive-Zip', '1.68'),
+    ('BioPerl',     '1.7.8'),
+    ('libSBML',     '5.19.0', '', ('GCC', '10.3.0')),
+    ('XML-LibXML',  '2.0207'),
+    ('BTLib',       '0.20',   '', ('GCCcore', '10.3.0-Perl-%(perlver)s')),
+]
+
+exts_defaultclass = 'PerlModule'
+exts_filter = ("perldoc -lm %(ext_name)s ", "")
+
+exts_list = [
+    ('Bit::Vector', '7.4', {
+        'source_tmpl': 'Bit-Vector-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/S/ST/STBEY'],
+        'checksums': ['3c6daa671fecfbc35f92a9385b563d65f50dfc6bdc8b4805f9ef46c0d035a926'],
+    }),
+    ('Cpanel::JSON::XS', '4.26', {
+        'source_tmpl': 'Cpanel-JSON-XS-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/R/RU/RURBAN'],
+        'checksums': ['fbebd1c9dbf6a53f573d61e3fca863341f65edaf988107291c0ee06ba0930730'],
+    }),
+    ('Digest::CRC', '0.23', {
+        'source_tmpl': 'Digest-CRC-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/O/OL/OLIMAUL'],
+        'checksums': ['a148528e19a7c8ba3fec23a7815012111f4754e941b9d767943270d8a5c5c4d8'],
+    }),
+    ('Excel::Writer::XLSX', '1.09', {
+        'source_tmpl': 'Excel-Writer-XLSX-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/J/JM/JMCNAMARA'],
+        'checksums': ['d679c6ac19e93c32ab77594c793e41b948c7bb3873b600e70ad637d093dca187'],
+    }),
+    ('List::Compare', '0.55', {
+        'source_tmpl': 'List-Compare-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/J/JK/JKEENAN'],
+        'checksums': ['cc719479836579d52b02bc328ed80a98f679df043a99b5710ab2c191669eb837'],
+    }),
+    ('Math::Random', '0.72', {
+        'source_tmpl': 'Math-Random-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/G/GR/GROMMEL'],
+        'checksums': ['be0522328811d96de505d9ebac3d096359026fa8d5c38f7bb999a78ec5bc254c'],
+    }),
+    ('Path::Class', '0.37', {
+        'source_tmpl': 'Path-Class-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS'],
+        'checksums': ['654781948602386f2cb2e4473a739f17dc6953d92aabc2498a4ca2561bc248ce'],
+    }),
+    ('Bytes::Random::Secure', '0.29', {
+        'source_tmpl': 'Bytes-Random-Secure-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/D/DA/DAVIDO'],
+        'checksums': ['53bbd339e6a11efca07c619a615c7c188a68bb2be849a1cb7efc3dd4d9ae85ae'],
+    }),
+    ('Math::Random::ISAAC', '1.004', {
+        'source_tmpl': 'Math-Random-ISAAC-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/J/JA/JAWNSY'],
+        'checksums': ['2773f02fbf207e9745e76a037df08bf5a8cc987ed23c57040ce7f7b1561f2b7c'],
+    }),
+    ('Crypt::Random::Seed', '0.03', {
+        'source_tmpl': 'Crypt-Random-Seed-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/D/DA/DANAJ'],
+        'checksums': ['593da54b522c09cc26bbcc0e4e49c1c8e688a6fd33b0726af801d722a5c8d0f1'],
+    }),
+    # Use this github version to have the fix about inc::IO::Interactive::Tiny
+    # (https://rt.cpan.org/Public/Bug/Display.html?id=120862)
+    ('Crypt::SSLeay', '0.73_07', {
+        'source_tmpl': 'master.tar.gz',
+        'source_urls': ['https://github.com/nanis/Crypt-SSLeay/archive/refs/heads'],
+        'checksums': ['1838a1d67fa944ed31ce72181190e6cbe158b000b106e9b2b36c2f1ebf451438'],
+    }),
+    ('Algorithm::Combinatorics', '0.27', {
+        'source_tmpl': 'Algorithm-Combinatorics-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/F/FX/FXN'],
+        'checksums': ['8378da39ecdb37d5cc89cc130a3b1353fd75d56c7690905673473fe4c25cd132'],
+    }),
+    ('IRI', '0.011', {
+        'source_tmpl': 'IRI-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/G/GW/GWILLIAMS'],
+        'checksums': ['85dc7003e00e2cb236d30f05c918dbc5dec833e631e499ee4d8ea64b12abe89b'],
+    }),
+    ('MooX::HandlesVia', '0.001009', {
+        'source_tmpl': 'MooX-HandlesVia-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/T/TO/TOBYINK'],
+        'checksums': ['716353e38894ecb7e8e4c17bc95483db5f59002b03541b54a72c27f2a8f36c12'],
+    }),
+    ('Type::Tiny', '1.012004', {
+        'source_tmpl': 'Type-Tiny-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/T/TO/TOBYINK'],
+        'checksums': ['75cd06b612d1830ae9f4b22298b506b3ff04518fa7453f487c248cd62a906a2b'],
+    }),
+    ('Class::Method::Modifiers', '2.13', {
+        'source_tmpl': 'Class-Method-Modifiers-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/E/ET/ETHER'],
+        'checksums': ['ab5807f71018a842de6b7a4826d6c1f24b8d5b09fcce5005a3309cf6ea40fd63'],
+    }),
+    ('Data::Perl', '0.002011', {
+        'source_tmpl': 'Data-Perl-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/T/TO/TOBYINK'],
+        'checksums': ['8d34dbe314cfa2d99bd9aae546bbde94c38bb05b74b07c89bde1673a6f6c55f4'],
+    }),
+    ('XML::Namespace', '0.02', {
+        'source_tmpl': 'XML-Namespace-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/A/AB/ABW'],
+        'checksums': ['9fa2953f7185795eb3ec4020d19adb75ab61fd58f435a9229bee727e91d459a3'],
+    }),
+    ('XML::CommonNS', '0.06', {
+        'source_tmpl': 'XML-CommonNS-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/P/PE/PERIGRIN'],
+        'checksums': ['e5b42fa00235b41b630656935359aaee7a7ba64a6af8d45d82e40aa8fef319a1'],
+    }),
+    ('XML::NamespaceFactory', '1.02', {
+        'source_tmpl': 'XML-NamespaceFactory-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/P/PE/PERIGRIN'],
+        'checksums': ['94b6dd0df4a8dc8ce83623e5d23413433ff1a01a302e8215425219b1ec19bb23'],
+    }),
+    ('MooseX::ArrayRef', '0.005', {
+        'source_tmpl': 'MooseX-ArrayRef-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/T/TO/TOBYINK'],
+        'checksums': ['8f2180abcbc110bedd9182e4ea3e7852df15f39ae49dc3dadd020b081ffcea08'],
+    }),
+    ('RDF::Trine', '1.019', {
+        'source_tmpl': 'RDF-Trine-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/G/GW/GWILLIAMS'],
+        'checksums': ['1bb07daa10781738aeedd8e70156868c9a70fbd310f05f2ec1f6ea02d8697060'],
+    }),
+    ('DateTime::Format::W3CDTF', '0.08', {
+        'source_tmpl': 'DateTime-Format-W3CDTF-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/G/GW/GWILLIAMS'],
+        'checksums': ['dcc200a073a21cba48122a5dae0b6a875df93d3f8c8ae9d446dcdd9befaa413a'],
+    }),
+    ('RDF::Query', '2.918', {
+        'source_tmpl': 'RDF-Query-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/G/GW/GWILLIAMS'],
+        'checksums': ['39b3de74a70c4c7ce08eedabb266cc09f3de2790ce75dc64e43e9b7da4976c41'],
+    }),
+    ('Sort::Naturally', '1.03', {
+        'source_tmpl': 'Sort-Naturally-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/B/BI/BINGOS'],
+        'checksums': ['eaab1c5c87575a7826089304ab1f8ffa7f18e6cd8b3937623e998e865ec1e746'],
+    }),
+    ('Spreadsheet::Read', '0.84', {
+        'source_tmpl': 'Spreadsheet-Read-%(version)s.tgz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/H/HM/HMBRAND'],
+        'checksums': ['19fc7bbca1aefec413a8de7cf82458a1adc986bf0c1d5849e71247ff301f9be2'],
+    }),
+    ('Spreadsheet::WriteExcel', '2.40', {
+        'source_tmpl': 'Spreadsheet-WriteExcel-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/J/JM/JMCNAMARA'],
+        'checksums': ['e356aad6866cf135731268ee0e979a197443c15a04878e9cf3e80d022ad6c07e'],
+    }),
+    ('Spreadsheet::ParseExcel', '0.65', {
+        'source_tmpl': 'Spreadsheet-ParseExcel-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/D/DO/DOUGW'],
+        'checksums': ['6ec4cb429bd58d81640fe12116f435c46f51ff1040c68f09cc8b7681c1675bec'],
+    }),
+    ('OLE::Storage_Lite', '0.20', {
+        'source_tmpl': 'OLE-Storage_Lite-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/J/JM/JMCNAMARA'],
+        'checksums': ['ab18a6171c0e08ea934eea14a0ab4f3a8909975dda9da42124922eb41e84f8ba'],
+    }),
+    ('Crypt::RC4', '2.02', {
+        'source_tmpl': 'Crypt-RC4-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/S/SI/SIFUKURT'],
+        'checksums': ['5ec4425c6bc22207889630be7350d99686e62a44c6136960110203cd594ae0ea'],
+    }),
+    ('Digest::Perl::MD5', '1.9', {
+        'source_tmpl': 'Digest-Perl-MD5-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/D/DE/DELTA'],
+        'checksums': ['7100cba1710f45fb0e907d8b1a7bd8caef35c64acd31d7f225aff5affeecd9b1'],
+    }),
+    ('Spreadsheet::XLSX', '0.15', {
+        'source_tmpl': 'Spreadsheet-XLSX-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/M/MI/MIKEB'],
+        'checksums': ['253e90ca3136abb1306ecdee37c910b01c3e6030e49569204f9a39342df5d641'],
+    }),
+    ('String::Numeric', '0.9', {
+        'source_tmpl': 'String-Numeric-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/C/CH/CHANSEN'],
+        'checksums': ['b992b6611a070e8cd887bc1c7409f22443c115e44245a5c67fb43535b5e0cfdb'],
+    }),
+    ('WWW::Mechanize', '2.03', {
+        'source_tmpl': 'WWW-Mechanize-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/O/OA/OALDERS'],
+        'checksums': ['3f1dd74df61d61522c0270f196ecc6e80c408f8c4d1835b99e1fce0a0d93845e'],
+    }),
+    ('Sphinx::Search', '0.31', {
+        'source_tmpl': 'Sphinx-Search-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/J/JJ/JJSCHUTZ'],
+        'checksums': ['5b44e41c07ba3bcf9af4a33c88880003ed618a929db1ced2e4a695c63c5b0237'],
+    }),
+]
+
+modextrapaths = {
+    'PERL5LIB': 'lib/perl5/site_perl/%(perlver)s/',
+}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['bin', 'lib/perl5/site_perl/%(perlver)s', 'man'],
+}
+
+moduleclass = 'bio'
