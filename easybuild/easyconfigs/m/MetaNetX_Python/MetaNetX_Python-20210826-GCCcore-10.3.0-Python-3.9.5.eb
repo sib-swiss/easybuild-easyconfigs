@@ -1,0 +1,196 @@
+##
+# This is a contribution from SIB Swiss Institute of Bioinformatics
+# Homepage:     https://www.sib.swiss/research-infrastructure/competence-centers/vital-it
+#
+# Authors::     Sebastien Moretti <sebastien.moretti@sib.swiss>
+#
+##
+
+easyblock = 'PythonBundle'
+
+name = 'MetaNetX_Python'
+version = '20210826'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://www.metanetx.org/'
+description = """Python requirements for Vital-IT, mainly for the MetaNetX project."""
+
+toolchain = {'name': 'GCCcore', 'version': '10.3.0'}
+
+builddependencies = [
+    ('binutils', '2.36.1'),
+    ('CMake',    '3.20.1'),
+    ('make',     '4.3'),
+    ('Check',    '0.15.2'),
+    ('SWIG',     '4.0.2'),
+    ('expat',    '2.2.9'),
+    ('bzip2',    '1.0.8'),
+    ('zlib',     '1.2.11'),
+]
+
+dependencies = [
+    ('Python',            '3.9.5'),
+    ('RDKit',             '2021.03.4', '', ('foss', '2021a')),
+    ('PyYAML',            '5.4.1'),
+    ('GitPython',         '3.1.18'),
+    ('sympy',             '1.8',       '', ('foss', '2021a')),
+    ('typing-extensions', '3.10.0.0'),
+    ('tqdm',              '4.61.2'),
+]
+
+use_pip = True
+
+# Looks to fetch the tar.gz, not the whl files!
+# Main libraries to install are cobra, memote and equilibrator_api
+exts_list = [
+    ('optlang', '1.5.2', {
+        'checksums': ['5514364aa06bf24381c6777188b2df79b13def2743312bdb80277392cdbb6477'],
+    }),
+    ('python-libsbml', '5.19.0', {
+        'modulename': 'libsbml',
+        'checksums': ['87596017aa76c1284e83247593fe999ab7ba9a84e7488bcf0434b01277858f86'],
+    }),
+    ('ruamel.yaml', '0.17.14', {
+        'modulename': 'ruamel',
+        'checksums': ['4185fcfa9e037fea9ffd0bb6172354a03ec98c21e462355d72e068c74e493512'],
+    }),
+    ('charset-normalizer', '2.0.4', {
+        'modulename': 'charset_normalizer',
+        'checksums': ['f23667ebe1084be45f6ae0538e4a5a865206544097e4e8bbcacf42cd02a348f3'],
+    }),
+    ('rfc3986', '1.5.0', {
+        'checksums': ['270aaf10d87d0d4e095063c65bf3ddbc6ee3d0b226328ce21e036f946e421835'],
+    }),
+    ('sniffio', '1.2.0', {
+        'checksums': ['c4666eecec1d3f50960c6bdf61ab7bc350648da6c126e3cf6898d8cd4ddcd3de'],
+    }),
+    ('httpcore', '0.13.6', {
+        'checksums': ['b0d16f0012ec88d8cc848f5a55f8a03158405f4bca02ee49bc4ca2c1fda49f3e'],
+    }),
+    ('h11', '0.12.0', {
+        'checksums': ['47222cb6067e4a307d535814917cd98fd0a57b6788ce715755fa2b6c28b56042'],
+    }),
+    ('rich', '10.7.0', {
+        'checksums': ['13ac80676e12cf528dc4228dc682c8402f82577c2aa67191e294350fa2c3c4e9'],
+    }),
+    ('pydantic', '1.8.2', {
+        'checksums': ['26464e57ccaafe72b7ad156fdaa4e9b9ef051f69e175dbbb463283000c05ab7b'],
+    }),
+    ('diskcache', '5.2.1', {
+        'checksums': ['1805acd5868ac10ad547208951a1190a0ab7bbff4e70f9a07cde4dbdfaa69f64'],
+    }),
+    ('cobra', '0.22.1', {
+        'checksums': ['25f2d669b30ec74b309fadbe1b321abee31e7cae9e889b3199ccca93e9cd8e52'],
+    }),
+    # More recent versions of pipdeptree do not provide the same methods
+    ('pipdeptree', '1.0.0', {
+        'checksums': ['5fe866a38113d28d527033ececc57b8e86df86b7c29edbacb33f41ee50f75b31'],
+    }),
+    # More recent versions of depinfo require versioneer that looks tricky to install
+    ('depinfo', '1.5.4', {
+        'checksums': ['f76c97e9f7f302d6f6a725d6640bc9e74ac0ab5ecebe37779ee58a3cd437addb'],
+    }),
+    ('numpydoc', '1.1.0', {
+        'checksums': ['c36fd6cb7ffdc9b4e165a43f67bf6271a7b024d0bb6b00ac468c9e2bfc76448e'],
+    }),
+    ('importlib_resources', '5.2.2', {
+        'checksums': ['a65882a4d0fe5fbf702273456ba2ce74fe44892c25e42e057aca526b702a6d4b'],
+    }),
+    ('pylru', '1.2.0', {
+        'checksums': ['492f934bb98dc6c8b2370c02c95c65516ddc08c8f64d27f70087eb038621d297'],
+    }),
+    ('click-configfile', '0.2.3', {
+        'modulename': 'click_configfile',
+        'checksums': ['95beec13bee950e98f43c81dcdabef4f644091559ea66298f9dadf59351d90d1'],
+    }),
+    ('click-log', '0.3.2', {
+        'modulename': 'click_log',
+        'checksums': ['16fd1ca3fc6b16c98cea63acf1ab474ea8e676849dc669d86afafb0ed7003124'],
+    }),
+    ('travis-encrypt', '1.4.0', {
+        'modulename': 'travis',
+        'checksums': ['a5de1caa10954cbe031ef17e2b542fbf838f20f041eb9d0056a31c5b922ddea1'],
+    }),
+    ('cookiecutter', '1.7.3', {
+        'checksums': ['6b9a4d72882e243be077a7397d0f1f76fe66cf3df91f3115dbb5330e214fa457'],
+    }),
+    ('poyo', '0.5.0', {
+        'checksums': ['e26956aa780c45f011ca9886f044590e2d8fd8b61db7b1c1cf4e0869f48ed4dd'],
+    }),
+    ('binaryornot', '0.4.4', {
+        'checksums': ['359501dfc9d40632edc9fac890e19542db1a287bbcfa58175b66658392018061'],
+    }),
+    ('tabulator', '1.53.5', {
+        'checksums': ['0e2887d0b36483a292e75b118d7f03e710c1337435553b5f62d2a7a891b7fe55'],
+    }),
+    ('cached-property', '1.5.2', {
+        'modulename': 'cached_property',
+        'checksums': ['9fa5755838eecbb2d234c3aa390bd80fbd3ac6b6869109bfc1b499f7bd89a130'],
+    }),
+    ('isodate', '0.6.0', {
+        'checksums': ['2e364a3d5759479cdb2d37cce6b9376ea504db2ff90252a2e5b7cc89cc9ff2d8'],
+    }),
+    ('tableschema', '1.20.2', {
+        'checksums': ['cfa3b0aa1c0941002384c6288794f9488cb5ea9188cf84ac700d17758cb036e7'],
+    }),
+    ('jsonpointer', '2.1', {
+        'checksums': ['5a34b698db1eb79ceac454159d3f7c12a451a91f6334a4f638454327b7a89962'],
+    }),
+    ('unicodecsv', '0.14.1', {
+        'checksums': ['018c08037d48649a0412063ff4eda26eaa81eff1546dbffa51fa5293276ff7fc'],
+    }),
+    ('datapackage', '1.15.2', {
+        'checksums': ['1e91a18c866914dea0acfe2aec785e6ec583c33766b0682c740b30bb7de88c58'],
+    }),
+    ('simpleeval', '0.9.10', {
+        'checksums': ['692055488c2864637f6c2edb5fa48175978a2a07318009e7cf03c9790ca17bea'],
+    }),
+    ('goodtables', '2.5.4', {
+        'checksums': ['67c51ac98967684763adb6406f92a683571d144b3a80095b0351a65f49848027'],
+    }),
+    ('memote', '0.13.0', {
+        'checksums': ['574620e67e461c6a2003ecd2c9bda01cafe5919c4c6f1653e382b9d74d8af05c'],
+    }),
+    ('Pint', '0.17', {
+        'modulename': 'pint',
+        'checksums': ['f4d0caa713239e6847a7c6eefe2427358566451fe56497d533f21fb590a3f313'],
+    }),
+    ('periodictable', '1.6.0', {
+        'checksums': ['52e925220005c20e97601e7b04ad6cebc271680947ab9adcbb1a796ddbaa0f23'],
+    }),
+    ('SQLAlchemy', '1.4.23', {
+        'modulename': 'sqlalchemy',
+        'checksums': ['76ff246881f528089bf19385131b966197bb494653990396d2ce138e2a447583'],
+    }),
+    ('Levenshtein', '0.13.0', {
+        'modulename': 'Levenshtein',
+        'checksums': ['2e6e0e6836ef0969102280807358bfa4db2db0c753e8bb3328cd673dfeb380f3'],
+    }),
+    ('httpx', '0.19.0', {
+        'checksums': ['92ecd2c00c688b529eda11cedb15161eaf02dee9116712f621c70d9a40b2cdd0'],
+    }),
+    ('tenacity', '8.0.1', {
+        'checksums': ['43242a20e3e73291a28bcbcacfd6e000b02d3857a9a9fff56b297a27afdc932f'],
+    }),
+    ('component-contribution', '0.4.4', {
+        'modulename': 'component_contribution',
+        'checksums': ['1ddf8f10919661c7efb2a6d1086c16fc47ad94779db33a5795a4a11ce3d9f5e4'],
+    }),
+    ('equilibrator-cache', '0.4.3', {
+        'modulename': 'equilibrator_cache',
+        'checksums': ['e3f9425285ce4052f98fb0a26eaa8027137eb73897a2e0dec24255a26bb19d8c'],
+    }),
+    ('equilibrator-api', '0.4.5', {
+        'modulename': 'equilibrator_api',
+        'checksums': ['86cbf26d65a6ec84cae89be9e733383e5858a203cd46d967c2cc2381e1e246c1'],
+    }),
+]
+
+sanity_check_paths = {
+    'files': ['bin/memote'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+modextrapaths = {'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages']}
+
+moduleclass = 'bio'
