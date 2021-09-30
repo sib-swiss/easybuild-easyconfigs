@@ -1,0 +1,284 @@
+#!/usr/bin/env perl
+
+use strict;
+
+my $usage='
+
+NAME
+
+     patsearch - search a protein  or  DNA  sequence  library  for
+     sequence segments matching a pattern
+
+SYNOPSIS
+
+     patsearch [options] [ pattern-library-file | - ] [ seq-library-file | - ]   
+
+DESCRIPTION
+
+     patsearch compares a query pattern, or a pattern library, against
+     a DNA or protein sequence library.  The result is an unsorted
+     list of pattern-sequence matches written to the standard output
+     in fasta format. The output is compatible with the program
+     psa2msa.
+
+OPTIONS
+
+     -h Print this message and stop.
+     -f Input sequence-library is in Pearson/Fasta format (default is
+        Swiss-Prot or EMBL format).
+     -l Input pattern is given on the command line (default is the name of
+        a file that contains one or several Prosite entries.
+     -n <name> provides a name for the pattern (to be used in conjunction
+        with -l <pattern>.
+     -o Allows ovelapping matches.
+     -s Forces the system to report short matches (non-greedy behaviour).
+     -S Skips Prosite pattern with the SKIP_FLAG.
+
+PATTERN SYNTAX
+
+   -  The standard IUPAC one-letter codes for the amino acids are used.
+   -  The symbol "x" is used for a position where any amino acid is accepted.
+   -  Ambiguities are  indicated by  listing the acceptable amino acids for a
+      given position,  between square  parentheses "[  ]". For example: [ALT]
+      stands for Ala or Leu or Thr.
+   -  Ambiguities are  also indicated  by listing  between a  pair  of  curly
+      brackets "{  }" the  amino acids  that are  not  accepted  at  a  given
+      position. For  example: {AM}  stands for  any amino acid except Ala and
+      Met.
+   -  Each element in a pattern is separated from its neighbor by a "-".
+   -  Repetition of  an element  of the pattern can be indicated by following
+      that element  with a  numerical value  or  a  numerical  range  between
+      parenthesis. Examples: x(3) corresponds to x-x-x, x(2,4) corresponds to
+      x-x or x-x-x or x-x-x-x. 
+   -  When a  pattern is  restricted to  either the  N- or  C-terminal  of  a
+      sequence, that  pattern either starts with a "<" symbol or respectively
+      ends with a ">" symbol.
+
+      Examples:
+
+         C-x-C-x(2)-[GP]-[FYW]-x(4,8)-C
+
+      This pattern is translated  as Cys-any-Cys-any-any-[Gly or Pro]-[Phe or
+      tyr or Trp]-"four to eight any"-Cys. Actually it corresponds to pat:EGF_2
+      of the Prosite collection of patterns.
+
+PATTERN MATCHING
+
+     The options "-o" and "-s" allow to finely tune the behaviour of
+     the pattern-matching engine. For example, consider the following sequence
+     "ABACADAEAFA" and the following simple pattern "A-x(1,3)-A". The
+     four possible combinations of the switches produce the following different
+     results:
+
+     -Default behaviour, no overlap and greedy, produces two matches:
+
+        ABACADAEAFA
+        ooooo......
+        ......ooooo          
+
+     -Five matches are produced when overlap are allowed (option -o):
+
+        ABACADAEAFA
+        ooooo......
+        ..ooooo....
+        ....ooooo..
+        ......ooooo          
+        ........ooo
+
+      -Three short matches are produced with the non-greedy mode (option -s):
+
+        ABACADAEAFA
+        ooo........
+        ....ooo....
+        ........ooo
+
+      -Five short matches are obtained with the option -so:
+ 
+        ABACADAEAFA
+        ooo........
+        ..ooo......
+        ....ooo....
+        ......ooo..
+        ........ooo
+
+NOTE
+
+   - With DNA sequences, only the forward strand is searched.
+   - The "-s" and "-o" options have little influence in practice for sufficiently
+     complex pattern.
+
+AUTHOR
+
+     Marco Pagni
+     Marco.Pagni@sib.swiss
+';
+
+#-----------------------------------------------------------#
+# Read command line arguments                               #
+#-----------------------------------------------------------#
+
+require Getopt::Std;
+my %opt;             # to store the options    
+Getopt::Std::getopts('hfn:oslS',\%opt);
+if($opt{'h'} or @ARGV!=2){
+  print "$usage\n";
+  exit 0;
+}
+
+#-----------------------------------------------------------#
+# Read pattern(s) and store                                 #
+#-----------------------------------------------------------#
+
+my @patterns;          # to store the patterns, kind of GLOBAL variable
+
+if ($opt{'l'}){
+  my %pattern;
+  $pattern{'prosite'}=shift @ARGV;
+  $pattern{'name'}=$opt{'n'} || 'PATTERN';
+  push @patterns,\%pattern;
+}
+else{  
+  my $pattern_file=shift @ARGV;
+  open(PATFILE,"$pattern_file") or die "cannot open \"$pattern_file\" for reading ";
+  my $entry; 
+  while(<PATFILE>){
+    $entry.=$_; 
+    if(m|^//|){
+      if($entry=~/PATTERN\./){                          # skip profile and rule
+	unless($opt{'S'} and $entry=~/SKIP.FLAG=TRUE/){ # may skip frequent match producer
+	  my %pattern;
+	  ($pattern{'prosite'})=$entry=~/((\nPA.+)+)/;
+	  ($pattern{'name'})=$entry=~/^ID   ([\w\:\-\.]+)/;
+	  $pattern{'name'}=$opt{'n'} if $opt{'n'};
+	  push @patterns,\%pattern;
+	}
+      }
+      $entry='';
+    }
+  }
+  close PATFILE;
+}
+ 
+#------------------------------------------------------------#
+# Every prosite pattern is now converted into a perl regexp. #
+# A "comb" that defines pseudo match states is also defined. #
+#------------------------------------------------------------#
+
+foreach my $pattern_ref (@patterns){
+  my $text=$pattern_ref->{'prosite'};
+  $text=~s/\nPA//g;
+  $text=~s/\.//g;                  # remove terminal dot if any
+  $text=~s/ +//g;                  # remove blank
+  $text=uc $text;                  # case insensitive
+  $text=~s/{([A-Z]+)}/\[\^$1\]/g;  # {ABC} => [^ABC]
+  $text=~s/\(([\d\,]+)\)/{$1}/g;   # x(1,2) => x{1,2}
+  $text=~s/}/}?/g if $opt{s};       # turn greediness off
+  $text=~s/^</\^/;                  # "<" => "^"
+  $text=~s/>$/\$/;                  # ">" => "$"
+  $text=~tr/X/./;                   # "x" => "."
+                                    # still need to remove all "-"!
+  my $regexp='(';
+  foreach(split /-/,$text){
+    if(/(\d+),/){
+      $regexp.=")($_)(";
+    }
+    else{
+      $regexp.="$_";
+    }
+  }
+  $regexp.=')';
+  $regexp=~s/\(\)//g;
+  
+  my @match_count;                    # the  "comb"
+  foreach(split /\)\(/,$regexp){
+    if(/(\d+),/){
+      push @match_count,$1;           # number of match states
+    }
+    else{
+      push @match_count,'';           # default: i.e. no insertions
+    }
+  }
+  
+  $text=~s/-//g;                      # now remove all "-"
+  $pattern_ref->{'regexp'}=$regexp;                 
+  $pattern_ref->{'comb'}=\@match_count;
+}
+
+#--------------------------------------------------------------#
+# The database is searched with the pattern(s).                #
+# The match are reported with insertion turned into lower case #
+#--------------------------------------------------------------#
+
+my($seqtitle,$seq);
+my $seq_file=shift @ARGV;
+if($opt{'f'}){ # Fasta
+  open(FASTA,"$seq_file") or die "cannot open \"$seq_file\" ";
+  while(<FASTA>){
+    if(/^>(.+)/){
+      search_pattern($seqtitle,$seq) if $seqtitle;
+      $seqtitle=$1;
+      $seq='';
+    }
+    else{
+      chop;
+      $seq.=$_;
+    }
+  }
+  search_pattern($seqtitle,$seq) if $seqtitle;
+  close FASTA;
+}
+else{ # Swiss-Prot or EMBL file
+  open(SOURCE,"$seq_file") or die "cannot open \"$seq_file\" ";
+  my $entry;
+  while(<SOURCE>){
+    $entry.=$_;
+    if(m|^//|){
+      ($seqtitle)=$entry=~/^ID   (\w+)/;
+      $seq='';
+      $seq.=$1 while $entry=~/\n   (.+)/g;
+      $seq=~s/\s+//g;
+      $entry='';
+      search_pattern($seqtitle,$seq);
+    }
+  }
+}  
+
+sub search_pattern{
+  my($seqtitle,$seq,$desc)=@_;
+  $seq=uc $seq;
+  my($from,$to);
+  foreach my $pattern_ref(@patterns){
+    if($opt{'o'}){
+      while($seq=~/(?=($pattern_ref->{'regexp'}))/g){ # catch overlapping match !
+	$from=1+pos($seq);            # in sequence coordinates
+	$to=$from+length($1)-1;
+	report_match($seqtitle,$from,$to,$1,$pattern_ref);
+      }
+    }
+    else{ 
+      while($seq=~/($pattern_ref->{'regexp'})/g){ # no overlap: default behaviour
+	$from=1+pos($seq)-length ($1);          
+	$to=pos($seq);
+	report_match($seqtitle,$from,$to,$1,$pattern_ref);
+      }
+    }
+  }
+}
+
+sub report_match{
+  my($seqtitle,$from,$to,$match,$pattern_ref)=@_;
+  my($seqname,$comment)=$seqtitle=~/(\S+)\s*(.*)/; 
+  my @tmp=$match=~$pattern_ref->{'regexp'};
+  for(0..(@tmp-1)){
+    if($pattern_ref->{'comb'}[$_] ne ''){ # 0 ne '' !
+      substr($tmp[$_],$pattern_ref->{'comb'}[$_])=
+	lc substr($tmp[$_],$pattern_ref->{'comb'}[$_]);
+    }
+  }
+  $seq=join('',@tmp);
+  $seq=~s/(.{1,80})/$1\n/g;
+  print ">$seqname/$from-$to";
+  print " motif=$pattern_ref->{'name'}" if $pattern_ref->{'name'};
+  print " $comment";
+  print "\n$seq";
+}

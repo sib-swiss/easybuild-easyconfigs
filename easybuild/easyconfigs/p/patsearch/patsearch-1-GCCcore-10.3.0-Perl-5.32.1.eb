@@ -1,0 +1,46 @@
+##
+# This is a contribution from SIB Swiss Institute of Bioinformatics
+# Homepage:     https://www.sib.swiss/research-infrastructure/competence-centers/vital-it
+#
+# Authors::     Sebastien Moretti <sebastien.moretti@sib.swiss>
+#
+##
+
+easyblock = 'Binary'
+
+name = 'patsearch'
+version = '1'
+versionsuffix = '-Perl-%(perlver)s'
+
+homepage = 'https://myhits.sib.swiss/cgi-bin/pattern_search'
+description = """patsearch compares a query pattern, or a pattern library, against
+a DNA or protein sequence library.  The  result  is  an  unsorted
+list of pattern-sequence matches written  to the standard  output
+in fasta format.  The  output  is  compatible  with  the  program
+psa2msa."""
+
+software_license = 'LicenseGPLv2'
+
+toolchain = {'name': 'GCCcore', 'version': '10.3.0'}
+
+sources = ['%(name)s']
+checksums = ['02760a65b838a6d7305769cfc621a547e9b678b05a4ce2fdebfd95b09f61c537']
+
+builddependencies = [('binutils', '2.36.1')]
+dependencies = [
+    ('Perl', '5.32.1'),
+]
+
+extract_sources = False
+
+install_cmd = 'mkdir -p %(installdir)s/bin/ && '
+install_cmd += 'install %(name)s %(installdir)s/bin/'
+
+sanity_check_paths = {
+    'files': ["bin/patsearch"],
+    'dirs': []
+}
+
+sanity_check_commands = ["patsearch"]
+
+moduleclass = 'bio'
