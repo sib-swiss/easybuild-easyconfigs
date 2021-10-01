@@ -1,0 +1,59 @@
+##
+# This is a contribution from SIB Swiss Institute of Bioinformatics
+# Homepage:     https://www.sib.swiss/research-infrastructure/competence-centers/vital-it
+#
+# Authors::     Sebastien Moretti <sebastien.moretti@sib.swiss>
+#
+##
+
+easyblock = 'Binary'
+
+name = 'paralign'
+version = '5.0.0'
+versionsuffix = "-Linux_x86_64"
+
+homepage = 'http://www.sencel.com/'
+description = """Now you can accelerate sensitive genome searches by an order of magnitude using
+the SENCEL PARALIGN software. Running Sencel's search software is the fastest
+way to perform Smith-Waterman homology searches on standard hardware.
+Furthermore, with the ParAlign algorithm, you can obtain the same level of
+sensitivity at much higher speed. The speed is achieved using Sencel's patent
+pending technology that relies on the multimedia technology embedded in most
+computers but not generally used by ordinary software."""
+
+software_license = 'LicenseVeryRestrictive'
+
+toolchain = SYSTEM
+
+dependencies = [
+    ('BLAST', '2.2.26-Linux_x86_64'),
+]
+
+sources = [
+    '%(name)s-%(version)s.tar.gz',
+    '%(name)s.hack',
+]
+checksums = [
+    '24223b1d1fa5acf262eaabec898831d4516282b57dbf2bc83650d942e91b8eeb',  # paralign-5.0.0.tar.gz
+    '8728fcc445bfb5ab504ac78ade5b894af0b910570a5a4c2aa7681026f5c24415',  # paralign.hack
+]
+
+extract_sources = False
+install_cmd = 'tar xvfz ' + sources[0] + ' && '
+install_cmd += 'mkdir -p %(installdir)s/ && '
+install_cmd += 'cd %(name)s-%(version)s/ && '
+install_cmd += 'cp -r * %(installdir)s/ && '
+# Discard original paralign that needs license
+install_cmd += 'chmod -x %(installdir)s/bin/paralign && '
+install_cmd += 'mv %(installdir)s/bin/paralign %(installdir)s/bin/paralign.ori && '
+install_cmd += 'install ../' + sources[1] + ' %(installdir)s/bin/paralign'
+
+
+sanity_check_paths = {
+    'files': ["bin/paralign"],
+    'dirs': []
+}
+
+sanity_check_commands = ["paralign -h 2>&1 | grep 'Usage: paralign \[options\] database query'"]
+
+moduleclass = 'bio'
