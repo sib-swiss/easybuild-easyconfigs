@@ -1,0 +1,59 @@
+##
+# This is a contribution from SIB Swiss Institute of Bioinformatics
+# Homepage:     https://www.sib.swiss/research-infrastructure/competence-centers/vital-it
+#
+# Authors::     Sebastien Moretti <sebastien.moretti@sib.swiss>
+#
+##
+
+easyblock = 'PerlModule'
+
+name = 'ESTScan'
+version = '2.1'
+versionsuffix = '-Perl-%(perlver)s'
+
+homepage = 'https://sourceforge.net/projects/estscan/'
+description = """ESTScan is a program that can detect coding regions in DNA sequences, even if
+they are of low quality.  ESTScan will also detect and correct sequencing
+errors that lead to frameshifts.
+ESTScan is not a gene prediction program , nor is it an open reading frame
+detector.  In fact, its strength lies in the fact that it does not require an
+open reading frame to detect a coding region.  As a result, the program may
+miss a few translated amino acids at either the N or the C terminus, but will
+detect coding regions with high selectivity and sensitivity."""
+
+toolchain = {'name': 'GCCcore', 'version': '10.3.0'}
+
+builddependencies = [('binutils', '2.36.1')]
+
+dependencies = [
+    ('Perl',  '5.32.1'),
+    ('BTLib', '0.20', '', ('GCCcore', '10.3.0-Perl-%(perlver)s')),
+]
+
+source_urls = ['https://downloads.sourceforge.net/project/estscan/ESTScan2/%(version)s']
+sources = [
+    '%(name)s2-%(version)s.tar.gz',
+    'estscan-matrices-200612.tar.bz2',
+]
+checksums = [
+    '6760285b24de2ec623954ca6a6a5aab74d804d4332579df4872bbaa6325b4524',  # ESTScan2-2.1.tar.gz
+    '2d90c7d4b96e16e42efdd05f3e5b0e7b2fca5875d1ef9baba39956f48e1c8860',  # estscan-matrices-200612.tar.bz2
+]
+
+# Fix hard-coded path in script
+# Fix problem in perl script
+postinstallcmds = ["sed -i 's@/usr/molbio/share/ESTScan@%(installdir)s/etc@' %(installdir)s/bin/ESTScan && "
+                   "sed -i 's+(defined @{$ft+(@{$ft+g' %(installdir)s/bin/ESTScan && "
+                   "find %(installdir)s/  -type f -name .packlist -exec rm -f {} ';' && "
+                   "mkdir -p %(installdir)s/etc && "
+                   "install -m644 %(builddir)s/*.smat %(installdir)s/etc/"]
+
+sanity_check_paths = {
+    'files': ['bin/ESTScan'],
+    'dirs': ['bin', 'lib/perl5/site_perl/%(perlver)s', 'man'],
+}
+
+sanity_check_commands = ["ESTScan -h 2>&1 | grep 'Usage: ESTScan \[options\] <file>'"]
+
+moduleclass = 'bio'
