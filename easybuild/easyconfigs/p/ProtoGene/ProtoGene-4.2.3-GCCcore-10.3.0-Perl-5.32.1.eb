@@ -1,0 +1,46 @@
+##
+# This is a contribution from SIB Swiss Institute of Bioinformatics
+# Homepage:     https://www.sib.swiss/research-infrastructure/competence-centers/vital-it
+#
+# Authors::     Sebastien Moretti <sebastien.moretti@sib.swiss>
+#
+##
+
+easyblock = 'Binary'
+
+name = 'ProtoGene'
+version = '4.2.3'
+versionsuffix = '-Perl-%(perlver)s'
+
+homepage = 'https://gitlab.sib.swiss/smoretti/protogene'
+description = """Bona-Fide Back Translation of Protein Multiple Sequence Alignments."""
+
+toolchain = {'name': 'GCCcore', 'version': '10.3.0'}
+
+builddependencies = [('binutils', '2.36.1')]
+
+dependencies = [
+    ('Perl',      '5.32.1'),
+    ('Exonerate', '2.4.0',  '', ('GCC', '10.3.0')),
+    ('BLAST',     '2.2.26', '-Linux_x86_64', True),
+]
+
+source_urls = ['https://gitlab.sib.swiss/smoretti/protogene/-/archive/master']
+sources = ['protogene-master.tar.gz']
+checksums = ['e629129a6318433f2306c5835fcc58a4992e77ebeb3f3fb7b7e65758cc5f065a']
+
+install_cmd = 'tar xvfz ' + sources[0] + ' && '
+install_cmd += 'cd protogene-master/ && '
+install_cmd += 'cp -ar . %(installdir)s/'
+
+postinstallcmds = ["rm -rf %(installdir)s/extra/ %(installdir)s/lib/Views0.pm "
+                   "%(installdir)s/TODO"]
+
+sanity_check_paths = {
+    'files': ['bin/ProtoGene.pl'],
+    'dirs': ['lib', 'utils'],
+}
+
+sanity_check_commands = ["ProtoGene.pl -h"]
+
+moduleclass = 'bio'
