@@ -1,0 +1,53 @@
+##
+# This is a contribution from SIB Swiss Institute of Bioinformatics
+# Homepage:     https://www.sib.swiss/research-infrastructure/competence-centers/vital-it
+#
+# Authors::     Sebastien Moretti <sebastien.moretti@sib.swiss>
+#
+##
+
+easyblock = 'JAR'
+
+name = 'RDT'
+version = '2.5.0'
+versionsuffix = '-Java-%(javaver)s'
+
+homepage = 'https://github.com/asad/ReactionDecoder'
+description = """Reaction Decoder Tool (RDT) - Atom Atom Mapping Tool"""
+
+toolchain = SYSTEM
+
+source_urls = [
+    'https://github.com/asad/ReactionDecoder/releases/download/v%(version)s',
+    'https://raw.githubusercontent.com/asad/ReactionDecoder/v%(version)s',
+    'https://raw.githubusercontent.com/asad/ReactionDecoder/v%(version)s',
+    'https://raw.githubusercontent.com/asad/ReactionDecoder/v%(version)s',
+]
+sources = [
+    'rdt-%(version)s-SNAPSHOT-jar-with-dependencies.jar',
+    'README.md',
+    'changes.log',
+    'LICENSE',
+]
+checksums = [
+    'edb44aed12ccb7d49e79e1b730fcff76705eb5abc2de7ba8290c1ba11118c873',  # rdt-2.5.0-SNAPSHOT-jar-with-dependencies.jar
+    '0f551bf2a69e4b2569f84ed106002d9ef751e4e4288e102e9182f49ea308ab47',  # README.md
+    '2af7da9e7e02541f19d8230dcc29b8735a3af4489da3565c6bdb692a2f0c02b4',  # changes.log
+    '97628afebc60f026f5c2b25d7491c46a5c4ee61f693e7cfa07fbd2c03605979b',  # LICENSE
+]
+
+postinstallcmds = [
+    "mv %(installdir)s/rdt-%(version)s-SNAPSHOT-jar-with-dependencies.jar %(installdir)s/%(name)s.jar",
+    'chmod -x %(installdir)s/*.md %(installdir)s/*.log %(installdir)s/LICENSE %(installdir)s/*.jar',
+]
+
+dependencies = [('Java', '11')]
+
+sanity_check_paths = {
+    'files': ['RDT.jar'],
+    'dirs': [],
+}
+
+modloadmsg = "To execute RDT run: java -jar $EBROOTRDT/%(name)s.jar"
+
+moduleclass = 'chem'
