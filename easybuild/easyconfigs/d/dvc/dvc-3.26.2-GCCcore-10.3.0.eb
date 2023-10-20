@@ -17,6 +17,10 @@ description = """(Not Just) Data Version Control"""
 
 toolchain = {'name': 'GCCcore', 'version': '10.3.0'}
 
+builddependencies = [
+    ('binutils', '2.36.1'),
+]
+
 dependencies = [
     ('Python',            '3.9.5'),
     ('git',               '2.32.0',  '-nodocs'),
