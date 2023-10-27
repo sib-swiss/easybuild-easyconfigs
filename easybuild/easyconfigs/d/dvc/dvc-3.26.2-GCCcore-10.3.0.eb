@@ -30,7 +30,6 @@ dependencies = [
     ('ruamel.yaml',       '0.17.21'),
     ('SciPy-bundle',      '2021.05', '', ('foss', '2021a')),
     ('tqdm',              '4.61.2'),
-    ('typing-extensions', '4.4.0'),
 ]
 
 use_pip = True
@@ -91,6 +90,11 @@ exts_list = [
     ('dvc-s3', '2.23.0', {
         'modulename': 'dvc_s3',
         'checksums': ['1f28598f5b0def4a350933428aba062a368c93bb411aa3c6d8f46cae79b5b957'],
+    }),
+    ('typing-extensions', '4.4.0', {
+        'modulename': 'typing_extensions',
+        'source_tmpl': 'typing_extensions-%(version)s.tar.gz',
+        'checksums': ['1511434bb92bf8dd198c12b1cc812e800d4181cfcb867674e0f8279cc93087aa'],
     }),
     ('aioitertools', '0.11.0', {
         'checksums': ['42c68b8dd3a69c2bf7f2233bf7df4bb58b557bca5252ac02ed5187bbc67d6831'],
