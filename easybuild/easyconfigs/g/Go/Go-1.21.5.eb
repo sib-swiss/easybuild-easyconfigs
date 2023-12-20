@@ -1,0 +1,27 @@
+easyblock = 'Tarball'
+
+name = 'Go'
+version = '1.21.5'
+
+homepage = 'https://www.golang.org'
+description = """Go is an open source programming language that makes it easy to build
+ simple, reliable, and efficient software."""
+
+toolchain = SYSTEM
+
+source_urls = ['https://storage.googleapis.com/golang/']
+
+local_archs = {'aarch64': 'arm64', 'x86_64': 'amd64'}
+sources = ['go%%(version)s.linux-%s.tar.gz' % local_archs[ARCH]]
+checksums = ['e2bc0b3e4b64111ec117295c088bde5f00eeed1567999ff77bc859d7df70078e']
+
+sanity_check_paths = {
+    'files': ['bin/go', 'bin/gofmt'],
+    'dirs': ['api', 'doc', 'lib', 'pkg'],
+}
+
+sanity_check_commands = ["go help"]
+
+modextravars = {'GOROOT': '%(installdir)s'}
+
+moduleclass = 'compiler'
