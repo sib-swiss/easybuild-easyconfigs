@@ -1,0 +1,34 @@
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild
+# Author: Pierre Berthier
+# Interfaculty Bioinformatics Unit, University of Bern
+
+easyblock = 'MakeCp'
+
+name = 'HOMER'
+version = '4.11'
+
+homepage = 'http://homer.ucsd.edu/homer/'
+description = """ HOMER (Hypergeometric Optimization of Motif EnRichment) is a suite of tools for Motif
+ Discovery and next-gen sequencing analysis.  It is a collection of command line programs for UNIX-style
+ operating systems written in Perl and C++. HOMER was primarily written as a de novo motif discovery
+ algorithm and is well suited for finding 8-20 bp motifs in large scale genomics data. """
+
+toolchain = {'name': 'foss', 'version': '2021a'}
+
+build_cmd = '/usr/bin/perl ./configureHomer.pl -install'
+
+source_urls = ['http://homer.ucsd.edu/homer/data/software/']
+sources = ['%(namelower)s.v%(version)s.zip']
+checksums = ['7a86da101930b2bce1a69855a1a8181c6c886cebf7f5cc09dc7e5a7b957bac42']
+
+files_to_copy = ['bin', 'data', 'motifs', 'update', 'DoughnutDocumentation.pdf', 'README.txt', 'COPYING']
+
+sanity_check_paths = {
+    'files': ['bin/homer2', 'bin/getMappableRegions', 'bin/makeTagDirectory',
+              'bin/getPeakTags', 'bin/makeUCSCfile', 'bin/getDifferentialPeaks',
+              'bin/mergePeaks', 'bin/genomeOntology', 'bin/homerTools',
+              'bin/analyzeHiC', 'bin/getGenomeTilingPeaks'],
+    'dirs': []
+}
+
+moduleclass = 'bio'
