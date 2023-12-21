@@ -1,0 +1,48 @@
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild
+# Author: Pierre Berthier
+# Interfaculty Bioinformatics Unit, University of Bern
+
+easyblock = 'MakeCp'
+
+name = 'UCSC-Utils'
+version = '448'
+
+homepage = 'https://github.com/ucscGenomeBrowser/kent-core'
+description = """ UCSC GenomeBrowser is mature web tool for rapid and reliable 
+ display of any requested portion of the genome at any scale, together with several 
+ dozen aligned annotation tracks, provided at http://genome.ucsc.edu/.  This module 
+ includes all utilities that are under an MIT license or in the public domain. """
+
+toolchain = {'name': 'foss', 'version': '2021a'}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/ucscGenomeBrowser/',
+        'repo_name': 'kent-core',
+        'tag': 'v448',
+        'recursive': True,
+    },
+}]
+
+checksums = [
+    None,  # can't add proper SHA256 checksum, because source tarball is created locally after recursive 'git clone'
+]
+
+builddependencies = [
+    ('MariaDB', '10.6.4'),
+    ('libpng', '1.6.37'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/ameme', 'bin/indexgl', 'bin/ixali',
+              'bin/trixMultiSearch', 'bin/dnadust', 'bin/protDust',
+              'bin/bottleneck', 'bin/faRandomize', 'bin/faFilter',
+              'bin/undupFa', 'bin/weedLines', 'bin/textHist2',
+              'bin/subs', 'bin/verticalSplitSqlTable', 'bin/vcfFilter'],
+    'dirs': ['bin']
+}
+
+files_to_copy = ['bin']
+
+moduleclass = 'bio'
