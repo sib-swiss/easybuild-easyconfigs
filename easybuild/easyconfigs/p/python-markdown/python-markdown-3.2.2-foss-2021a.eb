@@ -1,0 +1,59 @@
+# Built with EasyBuild version 4.5.1 on 2023-08-08_16-58-04
+##
+# This is a contribution from SIB Swiss Institute of Bioinformatics
+# Homepage: https://www.sib.swiss/research-infrastructure/competence-centers/vital-it
+# Authors: Robin Engler <robin.engler@sib.swiss>
+##
+
+easyblock = 'PythonPackage'
+
+name = 'python-markdown'
+options = {'modulename': 'markdown'}
+version = '3.2.2'
+homepage = 'https://python-markdown.github.io'
+description = """Python implementation of John Gruber’s Markdown."""
+# software_license = 'LicenseBSDv3'
+
+toolchain = {'name': 'foss', 'version': '2021a'}
+
+source_urls = ['https://pypi.python.org/packages/source/m/markdown']
+sources = ['Markdown-%(version)s.tar.gz']
+checksums = ['1fafe3f1ecabfb514a5285fca634a53c1b32a81cb0feb154264d55bf2ff22c17']
+
+dependencies = [
+    ('Python', '3.9.5'),
+]
+
+use_pip = True
+download_dep_fail = True
+sanity_pip_check = True
+
+moduleclass = 'tools'
+
+# Build statistics
+buildstats = [{
+    "build_time": 8.61,
+    "command_line": ["--buildpath='/home/vitsoft/eb_builddir/build'", "--configfiles='/home/vitsoft/sib-software-stack.git/config_easybuild.cfg'", "--containerpath='/software7/containers'", "--github-org='sib-swiss'", "--github-user='sib-software'", "--installpath='/software7'", "--robot='/home/vitsoft/sib-software-stack.git/easyconfigs:/home/vitsoft/sib-easyconfigs.git/easybuild/easyconfigs'", "--robot-paths='/home/vitsoft/sib-software-stack.git/easyconfigs:/home/vitsoft/sib-easyconfigs.git/easybuild/easyconfigs'", '--rpath', "--sourcepath='/home/vitsoft/eb_builddir/sources'", '/home/vitsoft/sib-easyconfigs.git/easybuild/easyconfigs/a/AnADAMA2/AnADAMA2-0.10.0-foss-2021a.eb'],
+    "core_count": 4,
+    "cpu_arch": "x86_64",
+    "cpu_arch_name": "UNKNOWN",
+    "cpu_model": "Intel(R) Xeon(R) Gold 6230 CPU @ 2.10GHz",
+    "cpu_speed": 2095.077,
+    "cpu_vendor": "Intel",
+    "easybuild-easyblocks_version": "4.5.1",
+    "easybuild-framework_version": "4.5.1",
+    "gcc_version": "Using built-in specs.; COLLECT_GCC=/software7/software/GCCcore/10.3.0/bin/gcc; COLLECT_LTO_WRAPPER=/software7/software/GCCcore/10.3.0/libexec/gcc/x86_64-pc-linux-gnu/10.3.0/lto-wrapper; OFFLOAD_TARGET_NAMES=nvptx-none; Target: x86_64-pc-linux-gnu; Configured with: ../configure --enable-languages=c,c++,fortran --without-cuda-driver --enable-offload-targets=nvptx-none --enable-lto --enable-checking=release --disable-multilib --enable-shared=yes --enable-static=yes --enable-threads=posix --enable-plugins --enable-gold=default --enable-ld --with-plugin-ld=ld.gold --prefix=/software7/software/GCCcore/10.3.0 --with-local-prefix=/software7/software/GCCcore/10.3.0 --enable-bootstrap --with-isl=/var/vhosts/vitsoft-home/eb_builddir/build/GCCcore/10.3.0/system-system/gcc-10.3.0/stage2_stuff --build=x86_64-pc-linux-gnu --host=x86_64-pc-linux-gnu; Thread model: posix; Supported LTO compression algorithms: zlib; gcc version 10.3.0 (GCC) ; ",
+    "glibc_version": "2.17",
+    "hostname": "vitbuild",
+    "install_size": 504686,
+    "modules_tool": ('Lmod', '/usr/share/lmod/lmod/libexec/lmod', '8.7.20'),
+    "os_name": "centos linux",
+    "os_type": "Linux",
+    "os_version": "7.9.2009",
+    "platform_name": "x86_64-unknown-linux",
+    "python_version": "3.6.8 (default, Jun 20 2023, 11:53:23) ; [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]",
+    "system_gcc_path": "/tmp/eb-7dgkkgnh/tmp2k5hh4wp/rpath_wrappers/gcc_wrapper/gcc",
+    "system_python_path": "/software7/software/Python/3.9.5-GCCcore-10.3.0/bin/python",
+    "timestamp": 1691506684,
+    "total_memory": 7963,
+}]
