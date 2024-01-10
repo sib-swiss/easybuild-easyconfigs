@@ -7,7 +7,7 @@
 
 easyblock = 'PythonPackage'
 
-name = 'AnADAMA2'
+name = 'anadama2'
 version = '0.10.0'
 moduleclass = 'data'
 
