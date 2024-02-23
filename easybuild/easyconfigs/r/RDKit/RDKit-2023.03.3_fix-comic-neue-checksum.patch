@@ -1,0 +1,11 @@
+--- rdkit-Release_2023_03_3/Code/GraphMol/MolDraw2D/CMakeLists.txt.ori	2024-02-22 11:04:12.288903006 +0100
++++ rdkit-Release_2023_03_3/Code/GraphMol/MolDraw2D/CMakeLists.txt	2024-02-22 11:04:44.679470021 +0100
+@@ -17,7 +17,7 @@
+     set(needDownload "FALSE")
+   endif()
+   if(needDownload)
+-    set(MD5Sum "850b0df852f1cda4970887b540f8f333")
++    set(MD5Sum "b7fd0df73ad4637504432d72a0accb8f")
+     downloadAndCheckMD5("https://fonts.google.com/download?family=Comic%20Neue"
+           "${CMAKE_CURRENT_SOURCE_DIR}/Comic_Neue.zip"
+           ${MD5Sum})
