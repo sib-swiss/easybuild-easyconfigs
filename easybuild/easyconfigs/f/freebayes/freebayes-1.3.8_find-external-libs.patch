@@ -1,0 +1,51 @@
+Created by Jasper Grimm (UoY)
+Changed for 1.3.8 by Pierre Berthier (Unibe)
+Switch to cc.find_library to search for libraries in LD_LIBRARY_PATH
+Add dependencies on fastahack, smithwaterman
+--- freebayes-1.3.8/meson.build	2024-06-13 11:09:28.428062985 +0200
++++ freebayes-1.3.8b/meson.build	2024-06-13 11:01:01.555193931 +0200
+@@ -23,10 +23,10 @@
+ 
+ cc = meson.get_compiler('cpp')
+ 
+-# fastahack_dep = cc.find_library('libfastahack')
++fastahack_dep = cc.find_library('libfastahack')
+ lzma_dep = dependency('liblzma', static: static_build)
+-seqlib_dep = dependency('libseqlib', static: static_build, required: false)
+-# smithwaterman_dep = cc.find_library('libsmithwaterman')
++seqlib_dep = cc.find_library('libseqlib', static: static_build, required: false)
++smithwaterman_dep = cc.find_library('libsw')
+ tabixpp_dep = cc.find_library('tabixpp', required: false, static: static_build)
+ thread_dep = dependency('threads', static: static_build)
+ vcflib_dep = cc.find_library('libvcflib')
+@@ -272,7 +272,7 @@
+     include_directories : [multichoose_inc, fastahack_inc, smithwaterman_inc, intervaltree_inc, incdir],
+     cpp_args : extra_cpp_args,
+     dependencies : [zlib_dep, lzma_dep, thread_dep, htslib_dep, tabixpp_dep,
+-                    vcflib_dep, wfa2lib_dep, seqlib_dep],
++                    vcflib_dep, wfa2lib_dep, seqlib_dep, fastahack_dep, smithwaterman_dep],
+     install : false,
+     )
+ 
+@@ -276,8 +307,8 @@
+                           tabixpp_dep,
+                           vcflib_dep,
+                           seqlib_dep,
+-                          # fastahack_dep,
+-                          # smithwaterman_dep,
++                          fastahack_dep,
++                          smithwaterman_dep,
+                           wfa2lib_dep],
+            link_with : freebayes_lib,
+            install: true
+@@ -294,8 +294,8 @@
+                           tabixpp_dep,
+                           vcflib_dep,
+                           seqlib_dep,
+-                          # fastahack_dep,
+-                          # smithwaterman_dep,
++                          fastahack_dep,
++                          smithwaterman_dep,
+                           wfa2lib_dep],
+            link_with : freebayes_lib,
+            install: true
