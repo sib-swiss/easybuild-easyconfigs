@@ -1,0 +1,16 @@
+Created by Pierre Berthier (IBU, Unibe)
+Fix include paths for EB
+diff -ruN DATES-753/src/Makefile DATES-753a/src/Makefile
+--- DATES-753/src/Makefile      2019-07-01 03:52:27.000000000 +0200
++++ DATES-753a/src/Makefile     2024-06-19 14:41:49.988889549 +0200
+@@ -12,9 +12,6 @@
+ override LDLIBS +=  -lm -lgsl -lblas -lfftw3 $(NLIB)  
+ override CFLAGS += -c -g -p -Wimplicit  $(IDIR)  
+ 
+-## Harvard O2 
+-override CFLAGS += -I/n/app/openblas/0.2.19/include -I/n/app/gsl/2.3/include -I/n/app/fftw/3.3.7/include
+-override LDFLAGS += -L/n/app/openblas/0.2.19/lib -L/n/app/gsl/2.3/lib/  -L/n/app/fftw/3.3.7/lib
+ 
+ 
+ 
+

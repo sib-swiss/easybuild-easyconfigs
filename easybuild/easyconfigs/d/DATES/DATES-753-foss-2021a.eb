@@ -1,0 +1,52 @@
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild                                                 
+# Written by: Pierre Berthier (IBU, Unibe)
+
+easyblock = 'MakeCp'
+
+name = 'DATES'
+version = '753'
+
+homepage = 'https://github.com/priyamoorjani/DATES'
+description = """DATES (Distribution of Ancestry Tracts of Evolutionary Signals)
+is a method to estimate the time of admixture in ancient DNA samples described
+in Narasimhan, Patterson et al. 2018"""
+
+toolchain = {'name': 'foss', 'version': '2021a'}
+
+dependencies = [
+    ('GSL', '2.7'),
+    ('OpenBLAS', '0.3.15'),
+    ('FFTW', '3.3.9'),
+]
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/priyamoorjani',
+        'repo_name': '%(name)s',
+        'tag': 'v%(version)s',
+    },
+}]
+patches = ['%(name)s-fixincludes.patch']
+checksums = [
+    {'DATES-753.tar.gz': 'a3f32cd345d6b423ee0278c818bfd2a3a0c1c5c717e34509edb1e804e93efc92'},
+    {'DATES-fixincludes.patch': '3ed0c4310155d3aba073a57994c62a1ed0b35c170a426035cfa1471c08ecfd38'},
+]
+
+# fix Make include paths
+build_cmd_targets = "install"
+
+buildopts = "-C src"
+
+files_to_copy = ['src/bin/calc_error', 'src/bin/dates_expfit', 'src/bin/dates_plot',
+                 'src/bin/dowtjack', 'src/bin/simpjack2', 'src/bin/dates',
+                 'src/bin/dates_jackknife', 'src/bin/dates_wtjack', 'src/bin/grabpars',
+                 'src/bin/run_dates_expfit']
+
+sanity_check_paths = {
+    'files': ['calc_error', 'dates_expfit', 'dates_plot', 'dowtjack', 'simpjack2', 'dates',
+              'dates_jackknife', 'dates_wtjack', 'grabpars', 'run_dates_expfit'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
