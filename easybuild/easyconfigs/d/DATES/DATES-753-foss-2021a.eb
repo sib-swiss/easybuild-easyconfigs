@@ -27,13 +27,14 @@ sources = [{
         'tag': 'v%(version)s',
     },
 }]
+
 patches = ['%(name)s-fixincludes.patch']
+
 checksums = [
     {'DATES-753.tar.gz': 'a3f32cd345d6b423ee0278c818bfd2a3a0c1c5c717e34509edb1e804e93efc92'},
     {'DATES-fixincludes.patch': '3ed0c4310155d3aba073a57994c62a1ed0b35c170a426035cfa1471c08ecfd38'},
 ]
 
-# fix Make include paths
 build_cmd_targets = "install"
 
 buildopts = "-C src"
