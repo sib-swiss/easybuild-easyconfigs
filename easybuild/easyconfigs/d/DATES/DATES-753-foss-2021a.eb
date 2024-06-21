@@ -38,14 +38,12 @@ build_cmd_targets = "install"
 
 buildopts = "-C src"
 
-files_to_copy = ['src/bin/calc_error', 'src/bin/dates_expfit', 'src/bin/dates_plot',
-                 'src/bin/dowtjack', 'src/bin/simpjack2', 'src/bin/dates',
-                 'src/bin/dates_jackknife', 'src/bin/dates_wtjack', 'src/bin/grabpars',
-                 'src/bin/run_dates_expfit']
+files_to_copy = ['src/bin']
 
 sanity_check_paths = {
-    'files': ['calc_error', 'dates_expfit', 'dates_plot', 'dowtjack', 'simpjack2', 'dates',
-              'dates_jackknife', 'dates_wtjack', 'grabpars', 'run_dates_expfit'],
+    'files': ['bin/%s' % x for x in ['calc_error', 'dates_expfit', 'dates_plot',
+                                     'dowtjack', 'simpjack2', 'dates', 'dates_jackknife',
+                                     'dates_wtjack', 'grabpars', 'run_dates_expfit']],
     'dirs': [],
 }
 
