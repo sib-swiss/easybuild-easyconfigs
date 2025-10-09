@@ -1,6 +1,6 @@
 ##
 # This is a contribution from SIB Swiss Institute of Bioinformatics
-# Homepage:     https://www.sib.swiss/research-infrastructure/competence-centers/vital-it
+# Homepage:     https://www.sib.swiss/vital-it
 #
 # Authors::     Sebastien Moretti <sebastien.moretti@sib.swiss>
 #
@@ -53,7 +53,7 @@ postinstallcmds = ["cd %(installdir)s/lib64/ && "
 
 
 sanity_check_paths = {
-    'files': ["bin/rinchi_cmdline", "lib64/librinchi.so", "RINCHI_LICENCE.TXT"],
+    'files': ["bin/rinchi_cmdline", f'lib/librinchi.{SHLIB_EXT}', "RINCHI_LICENCE.TXT"],
     'dirs': ['lib64']
 }
 
