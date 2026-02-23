@@ -30,6 +30,9 @@ dependencies = [
 
 configopts = "--enable-nco_cplusplus"
 
+# in.nc is used for sanity check
+postinstallcmds = ['cp %(builddir)s/%(namelower)s-%(version)s/data/in.nc %(installdir)s/share/in.nc']
+
 sanity_check_paths = {
     'files': ['bin/nc%s' % x for x in ('ap2', 'atted', 'bo', 'diff', 'ea', 'ecat', 'es',
                                        'flint', 'ks', 'pdq', 'ra', 'rcat', 'rename', 'wa')] +
@@ -38,7 +41,6 @@ sanity_check_paths = {
 }
 sanity_check_commands = [
     "ncks -O -7 --cnk_dmn time,10 "
-    "%(builddir)s/%(namelower)s-%(version)s/data/in.nc %(builddir)s/%(namelower)s-%(version)s/data/in4.cdl"
+    "%(installdir)s/share/in.nc $TMPDIR/in4.cdl"
 ]
-
 moduleclass = 'tools'
