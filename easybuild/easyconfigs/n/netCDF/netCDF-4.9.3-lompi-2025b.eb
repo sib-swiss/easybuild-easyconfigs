@@ -30,6 +30,8 @@ dependencies = [
     ('libxml2', '2.14.3'),
 ]
 
+# Ensure up-to-date libtool and Autoconf for better LLVM compiler detection,
+# especially in MPI wrappers
 preconfigopts = "pushd %(start_dir)s && ./bootstrap && popd && "
 # disable Szip, zlib parallel I/O tests, since these can hang on some systems, e.g. generoso
 # see: https://github.com/easybuilders/easybuild-easyconfigs/pull/16834

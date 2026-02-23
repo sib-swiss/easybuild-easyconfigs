@@ -21,6 +21,8 @@ dependencies = [
     ('bzip2', '1.0.8'),
 ]
 
+# Re-bootstrap to ensure that the flang compiler is correctly picked up
+# by libtool in MPI wrappers
 preconfigopts = 'autoreconf -fiv && '
 
 # (too) parallel build fails, but single-core build is fairly quick anyway (~1min)
