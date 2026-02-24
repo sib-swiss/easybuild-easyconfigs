@@ -19,7 +19,7 @@ checksums = ['d70f21a557523404884dd2a192505227e1e6a50ed74315d73c416489b43e9414']
 dependencies = [
     ('libvips', '8.16.1'),
     ('Python-bundle-PyPI', '2024.06'),
-    ('pyperf', '2.7.0'),
+    ('pyperf', '2.10.0'),
     ('pkgconfig', '1.5.5', '-python'),
 ]
 
