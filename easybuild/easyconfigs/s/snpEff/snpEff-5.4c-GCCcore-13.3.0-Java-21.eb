@@ -10,7 +10,6 @@ description = """SnpEff is a variant annotation and effect prediction tool.
 
 toolchain = {'name': 'GCCcore', 'version': '13.3.0'}
 
-#https://snpeff-public.s3.amazonaws.com/versions/snpEff_latest_core.zip
 source_urls = ['https://snpeff-public.s3.amazonaws.com/versions/']
 sources = ['%%(name)s_v%s_core.zip' % version.replace('.', '_')]
 checksums = ['3b06a1e1f939e7ebd5433387f088c1d3d1e0a7d472d63f39161b1fe9f00adf33']
