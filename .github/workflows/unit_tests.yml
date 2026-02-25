@@ -15,11 +15,11 @@ jobs:
       matrix:
         include:
           - python: '3.7'
-            module_syntax: Lua
             modules_tool: Lmod-8.6.8
-          - python: '3.11'
             module_syntax: Tcl
+          - python: '3.11'
             modules_tool: Lmod-8.6.8
+            module_syntax: Lua
       fail-fast: false
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
