@@ -50,5 +50,5 @@ sanity_check_commands = [' && '.join([
     "sed -i 's/io_type_w.*/io_type_w = 0/' singleideal.ini",
     "%(mpi_cmd_prefix)s streams_2.exe | grep 'averaged timing'",
 ])]
- 
+
 moduleclass = 'cae'
