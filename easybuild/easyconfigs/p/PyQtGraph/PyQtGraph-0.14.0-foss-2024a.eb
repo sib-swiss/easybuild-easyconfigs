@@ -22,7 +22,7 @@ dependencies = [
     ('Python', '3.12.3'),
     ('SciPy-bundle', '2024.05'),
     ('PyQt5', '5.15.11'),
-    ('PyOpenGL', '3.1.10'),
+    ('PyOpenGL', '3.1.9'),
 ]
 
 moduleclass = 'vis'
