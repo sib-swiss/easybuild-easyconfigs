@@ -48,7 +48,7 @@ sanity_check_commands = [' && '.join([
     "sed -i 's/print_control.*/print_control = 1/' singleideal.ini",
     "sed -i 's/io_type_r.*/io_type_r = 0/' singleideal.ini",
     "sed -i 's/io_type_w.*/io_type_w = 0/' singleideal.ini",
-    "mpirun -np 1 %(installdir)s/bin/streams_2.exe | grep 'averaged timing'",
+    "%(mpi_cmd_prefix)s streams_2.exe | grep 'averaged timing'",
 ])]
  
 moduleclass = 'cae'
