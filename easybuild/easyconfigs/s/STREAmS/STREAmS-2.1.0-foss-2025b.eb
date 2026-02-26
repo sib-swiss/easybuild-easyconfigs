@@ -19,7 +19,7 @@ max_parallel = 1
 # 1. Preparation: enter the code directory and copy the template
 prebuildopts = "cd code && cp make-templates/makefile.inc.linux64_cpu_gnu makefile.inc && "
 
-# 2. Serial compilation in the code directory                                                                                     
+# 2. Serial compilation in the code directory
 buildopts = "-f Makefile"
 
 # 3. Installation
