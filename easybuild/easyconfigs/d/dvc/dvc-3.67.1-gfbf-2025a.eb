@@ -42,8 +42,6 @@ dependencies = [
     ('pydantic', '2.11.7'),
 ]
 
-use_pip = True
-
 exts_list = [
     ('requests', '2.34.2', {
         'source_tmpl': 'requests-%(version)s-py3-none-any.whl',
